@@ -11,6 +11,7 @@ public class Member {
     private String name;
     private String contact;
     private String Password;
+    boolean isLogin= false;
 
     // Setters and Getters
     public void setName(String name) {
@@ -56,7 +57,7 @@ public class Member {
 
           
             int rowsAffected = pSmt.executeUpdate();
-            
+            isLogin=true;
             
 
         } catch (SQLException e) {
