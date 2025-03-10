@@ -41,6 +41,9 @@ public class main {
 			System.out.println("1. Add Book");
 			System.out.println("2. View Book");
 			System.out.println("3. Issue book");
+			System.out.println("4.Delete Book");
+			System.out.println("5.Exit");
+			System.out.println();
 			System.out.println("please enter your choice");
 			 choice=sc.nextInt();
 
@@ -51,6 +54,9 @@ public class main {
 				break;
 			case 2:
 				objLib.viewAllBook();
+				break;
+			case 3:
+				objLib.issueBook();
 				break;
 			}
 		
