@@ -91,21 +91,21 @@ public class Library {
 			}
 		}
 	}
-	public void issueBook() {
-		try {
-		con = DriverManager.getConnection(objdb.url,objdb.username, objdb.password);
-		pstmt=con.prepareStatement("call sp_issueBook(?)");
-		System.out.println("Enter the bookid to be issued");
-		int bookId=sc.nextInt();
-		
-		pstmt.setInt(1,bookId);
-		
-		pstmt.execute();
-		System.out.println(bookId+" is issued");
-		
-	}catch(SQLException e) {
-		System.out.println(e.getMessage());
-	}
-	}
+public void issueBook() {
+    try {
+        con = DriverManager.getConnection(objdb.url, objdb.username, objdb.password);
+        pstmt = con.prepareStatement("call sp_issueBook(?)");
+        System.out.println("Enter the bookId to be issued:");
+        int bookId = sc.nextInt();
+        
+        pstmt.setInt(1, bookId);
+        
+        pstmt.execute();
+        System.out.println(bookId + " is issued");
+        
+    } catch(SQLException e) {
+        System.out.println(e.getMessage());
+    }
+}
 
 }
