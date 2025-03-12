@@ -79,16 +79,6 @@ public class Library {
 	}
 		catch(SQLException e) {
 			System.out.println(e.getMessage());
-		}finally {
-			try {
-				if(res!=null || pstmt!=null|| con!=null) {
-			res.close();
-			pstmt.close();
-			con.close();
-				}
-			}catch(SQLException e) {
-				System.out.println(e.getMessage());
-			}
 		}
 	}
 public void issueBook() {
@@ -106,6 +96,41 @@ public void issueBook() {
     } catch(SQLException e) {
         System.out.println(e.getMessage());
     }
+}
+
+public void deleteBook() {
+	 try {
+	        con = DriverManager.getConnection(objdb.url, objdb.username, objdb.password);
+	        pstmt = con.prepareStatement("call sp_deleteBook(?)");
+	        System.out.println("Enter the bookId to be deleted:");
+	        int bookId = sc.nextInt();
+	        
+	        pstmt.setInt(1, bookId);
+	        
+	        pstmt.execute();
+	        System.out.println(bookId + " is deleted");
+	        
+	    } catch(SQLException e) {
+	        System.out.println(e.getMessage());
+	    }
+}
+
+public void UserViewBook() {
+	try {
+	con=DriverManager.getConnection(objdb.url, objdb.username, objdb.password);
+	pstmt= con.prepareStatement("exec sp_viewUserBook()");
+	res= pstmt.executeQuery();
+	while(res.next()) {
+		int BookId = res.getInt("bookId");
+		String title = res.getString("title");
+		String author= res.getString("author");
+		boolean available = res.getBoolean("isAvailable");
+		System.out.println("ID: " + BookId + ", Title: " + title + ", Author: " + author+"available"+ available);
+		System.out.println();
+	}
+	}catch(SQLException e) {
+		System.out.println(e.getMessage());
+	}
 }
 
 }

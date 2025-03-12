@@ -58,13 +58,31 @@ public class main {
 			case 3:
 				objLib.issueBook();
 				break;
+			case 4:
+				objLib.deleteBook();
+				break;
+			case 5:
+				exit=true;
+				break;
+//			default: System.out.println("enter correct option");
 			}
+			
 		
 		}else {
+			while(!exit) {
+				int choice =0;
 			System.out.println("Please select what u want to do!!!");
 			System.out.println("1. Search Book");
 			System.out.println("2. View Book");
 			System.out.println("3. Return book");
+			System.out.println("Please eneter your Choice");
+			choice = sc.nextInt();
+			switch(choice) {
+			case 1:
+				objLib.UserViewBook();
+				break;
+			}
+			}
 		}
 			}
 		}
