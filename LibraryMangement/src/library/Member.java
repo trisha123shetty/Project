@@ -1,5 +1,6 @@
 package library;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,7 +13,9 @@ public class Member {
     private String contact;
     private String Password;
     boolean isLogin= false;
+    DatabaseConnection objdb = new DatabaseConnection();
 
+    
     // Setters and Getters
     public void setName(String name) {
         this.name = name;
@@ -35,10 +38,39 @@ public class Member {
     public String getPassword() {
     	return Password;
     }
+    public boolean isAdmin(String username, String password) {
+        boolean isAdmin = false;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+
+        try {
+             con = DriverManager.getConnection(objdb.url, objdb.username, objdb.password);
+            pstmt = con.prepareStatement("SELECT * FROM Admin WHERE adminName = ? AND password = ?");
+            
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            
+            res = pstmt.executeQuery();
+            if (res.next()) {
+                isAdmin = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            try {
+                if (res != null) res.close();
+                if (pstmt != null) pstmt.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return isAdmin;
+    }
 
     public void InsertMember() {
         Scanner sc = new Scanner(System.in);
-        DatabaseConnection objdb = new DatabaseConnection();
 
         try {
             Connection con = DriverManager.getConnection(objdb.url, objdb.username, objdb.password);
