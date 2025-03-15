@@ -1,8 +1,7 @@
 package library;
-import java.lang.classfile.instruction.SwitchCase;
+
 import java.util.Scanner;
-import library.Member;
-import library.DatabaseConnection;
+
 public class main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -15,12 +14,17 @@ public class main {
             return;
         }
 
+        login(sc);
+        sc.close();
+    }
+
+    public static void login(Scanner sc) {
         System.out.println("Welcome to the Library System!");
         System.out.println("Please enter your login details.");
 
         Member objMember = new Member();
         objMember.InsertMember();  // Ensure this method inserts new users correctly
-        
+
         System.out.print("Enter Password: ");
         String password = sc.next();
 
@@ -28,18 +32,15 @@ public class main {
 
         if (objMember.isAdmin(memberName, password)) {
             System.out.println("Welcome, Admin " + memberName);
-            adminMenu();
+            adminMenu(sc);
         } else {
             System.out.println("Welcome, " + memberName);
-            userMenu();
+            userMenu(sc);
         }
-
-        sc.close();
     }
 
-    public static void adminMenu() {
+    public static void adminMenu(Scanner sc) {
         Library objLib = new Library();
-        Scanner sc = new Scanner(System.in);
         boolean exit = false;
 
         while (!exit) {
@@ -63,8 +64,9 @@ public class main {
                     objLib.deleteBook();
                     break;
                 case 4:
-                	adminMenu();
-                	break;
+                    System.out.println("Logging out...");
+                    login(sc);
+                    return;
                 case 5:
                     exit = true;
                     break;
@@ -72,12 +74,10 @@ public class main {
                     System.out.println("Invalid choice! Please try again.");
             }
         }
-        sc.close();
     }
 
-    public static void userMenu() {
+    public static void userMenu(Scanner sc) {
         Library objLib = new Library();
-        Scanner sc = new Scanner(System.in);
         boolean exit = false;
 
         while (!exit) {
@@ -86,6 +86,8 @@ public class main {
             System.out.println("2. View Books");
             System.out.println("3. Buy Book");
             System.out.println("4. Return Book");
+            System.out.println("5. Logout");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
 
@@ -102,10 +104,16 @@ public class main {
                 case 4:
                     objLib.returnBook();
                     break;
+                case 5:
+                    System.out.println("Logging out...");
+                    login(sc);
+                    return;
+                case 6:
+                    exit = true;
+                    break;
                 default:
                     System.out.println("Invalid choice! Please try again.");
             }
         }
-        sc.close();
     }
 }
